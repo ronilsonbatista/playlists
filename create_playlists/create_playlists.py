@@ -23,9 +23,9 @@ class Playlists_Book(db.Model):
     __tablename__ = "create_playlists_book_"
     id = db.Column(db.Integer, primary_key=True)
     name_playlist = db.Column(db.String(256), nullable=False)
-    id_playlist = db.Column(db.String(256), nullable=False)
+    id_playlist = db.Column(db.Integer, nullable=False)
     name_book = db.Column(db.String(256), nullable=False)
-    id_book = db.Column(db.String(256), nullable=False)
+    id_book = db.Column(db.Integer, nullable=False)
 
 class PlaylistsBookSchema(ma.SQLAlchemyAutoSchema):
     submitted = ma.Nested(Playlists_Book, many=True)
@@ -85,23 +85,31 @@ def new_book():
 @app.route("/api/add/book", methods=["POST"])
 def post_add_book():
 
-    id_playlist_ = request.form["id_playlist"]
-    name_playlist_ = request.form["name_playlist"]
+    print("id_playlist:", int(request.form["id_playlist"]))
+    print("name_playlist", request.form["name_playlist"])
+
+    id_playlist = int(request.form["id_playlist"])
+    name_playlist = request.form["name_playlist"]
     result = BookServiceHandler().get()
     
     return render_template("add_playlist.html",
                            list=result, 
-                           id_playlist = id_playlist_,
-                           name_playlist = name_playlist_)
+                           id_playlist = id_playlist,
+                           name_playlist = name_playlist)
 
-@app.route("/api/add/book", methods=["POST"])
-def post_book():    
+@app.route("/api/add/book/playlist", methods=["POST"])
+def post_book():   
+    
+    print("id_playlist:", int(request.form["id_playlist"]))
+    print("name_playlist:", request.form["name_playlist"]) 
+    print("name_book:", request.form["name_book"])
+    print("id_book:", int(request.form["id_book"])) 
 
     new_data = {
         "name_playlist": request.form["name_playlist"],
-        "id_playlist": request.form["id_playlist"],
+        "id_playlist": int(request.form["id_playlist"]),
         "name_book": request.form["name_book"],
-        "id_book": request.form["id_book"],
+        "id_book": int(request.form["id_book"]),
     }
 
     submitted = Playlists_Book(**new_data)
