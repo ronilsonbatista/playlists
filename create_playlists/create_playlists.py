@@ -34,11 +34,13 @@ class PlaylistsBookSchema(ma.SQLAlchemyAutoSchema):
 
 all_playlists_book_schema = PlaylistsBookSchema(many = True)
 
-@app.route("/api/create/playlist", methods=["GET"])
+# Criar coleção
+@app.route("/api/criar/colecao", methods=["GET"])
 def home():
     return render_template("index.html")
 
-@app.route("/api/submitt/new/playlist", methods=["POST"])
+# POST - Criar coleção
+@app.route("/api/nova/colecao", methods=["POST"])
 def post_playlists():
     new_data = {
         "name" : request.form["name"],
@@ -49,8 +51,8 @@ def post_playlists():
     db.session.commit()
     return "Salvo com Sucesso"
 
-
-@app.route("/api/remove/playlist/", methods=["GET"])
+# Remover coleção
+@app.route("/api/remover/colecao", methods=["GET"])
 def romeve_playlists():
 
     result = Playlists.query.all()
@@ -58,7 +60,8 @@ def romeve_playlists():
     return render_template("remove_playlists.html",
                            list=result)
 
-@app.route("/api/remove", methods=["POST"])
+# POST - Remover coleção por id 
+@app.route("/api/remover", methods=["POST"])
 def post_remove():
 
     id = int(request.form["remove_id"])
@@ -68,13 +71,16 @@ def post_remove():
     db.session.commit()
 
     return "OK"
-    
-@app.route("/api/playlist/list", methods=["GET"])
+
+ # GET - Listar coleção  
+@app.route("/api/listar/colecao", methods=["GET"])
 def submitted_list():
     result = Playlists.query.all()
     return jsonify(all_playlists_schema.dump(result))
 
-@app.route("/api/playlist/new/book", methods=["GET"])
+
+ # Selecionar Coleção 
+@app.route("/api/selecionar/colecao", methods=["GET"])
 def new_book():
    
     result = Playlists.query.all()
@@ -82,7 +88,8 @@ def new_book():
     return render_template("insert_playlists.html",
                            list=result)
 
-@app.route("/api/add/book", methods=["POST"])
+ # POST - Adicionar Livro
+@app.route("/api/adicionar/livro", methods=["POST"])
 def post_add_book():
 
     print("id_playlist:", int(request.form["id_playlist"]))
@@ -97,7 +104,8 @@ def post_add_book():
                            id_playlist = id_playlist,
                            name_playlist = name_playlist)
 
-@app.route("/api/add/book/playlist", methods=["POST"])
+ # POST - Adicionar Livro
+@app.route("/api/adicionar/livro/colecao", methods=["POST"])
 def post_book():   
     
     print("id_playlist:", int(request.form["id_playlist"]))
@@ -117,7 +125,8 @@ def post_book():
     db.session.commit()
     return "Salvo com Sucesso"
 
-@app.route("/api/playlist/book/list", methods=["GET"])
+ # GET - Listar livros adicionados em coleção
+@app.route("/api/colecao/livros/adicionados", methods=["GET"])
 def list_book_playlist():
     result = Playlists_Book.query.all()
     return jsonify(all_playlists_book_schema.dump(result))
