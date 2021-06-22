@@ -24,9 +24,6 @@ def home():
 def post_playlists():
     name = request.form.get('name')
 
-    print("name", name)
-
-
     new_data = {
         "name" : name,
     }
@@ -47,11 +44,11 @@ def romeve_playlists():
 
 # POST - Remover coleção por id 
 @app.route("/api/remover", methods=["POST"])
-def post_remove():
+def post_remove(remove_id):
 
-    id = int(request.form["remove_id"])
+    remove_id = int(request.form.get('remove_id'))
     
-    user = Playlists.query.get(id)
+    user = Playlists.query.get(remove_id)
     db.session.delete(user)
     db.session.commit()
 
@@ -77,12 +74,12 @@ def new_book():
 @app.route("/api/adicionar/livro", methods=["POST"])
 def post_add_book():
 
-    print("id_playlist:", int(request.form["id_playlist"]))
-    print("name_playlist", request.form["name_playlist"])
-
-    id_playlist = int(request.form["id_playlist"])
-    name_playlist = request.form["name_playlist"]
+    id_playlist = int(request.form.get('id_playlist'))
+    name_playlist = request.form.get('name_playlist')
     result = BookServiceHandler().get()
+
+    print("id_playlist:",  id_playlist)
+    print("name_playlist", name_playlist)
     
     return render_template("add_playlist.html",
                            list=result, 
@@ -93,16 +90,21 @@ def post_add_book():
 @app.route("/api/adicionar/livro/colecao", methods=["POST"])
 def post_book():   
     
-    print("id_playlist:", int(request.form["id_playlist"]))
-    print("name_playlist:", request.form["name_playlist"]) 
-    print("name_book:", request.form["name_book"])
-    print("id_book:", int(request.form["id_book"])) 
+    id_playlist = int(request.form.get('id_playlist'))
+    name_playlist = request.form.get('name_playlist')
+    id_book = int(request.form.get('id_book'))
+    name_book = request.form.get('name_book')
+
+    print("id_playlist:", id_playlist)
+    print("name_playlist:", name_playlist) 
+    print("name_book:", name_book)
+    print("id_book:", id_book) 
 
     new_data = {
-        "name_playlist": request.form["name_playlist"],
-        "id_playlist": int(request.form["id_playlist"]),
-        "name_book": request.form["name_book"],
-        "id_book": int(request.form["id_book"]),
+        "name_playlist": name_playlist,
+        "id_playlist": id_playlist,
+        "name_book": name_book,
+        "id_book": id_book,
     }
 
     submitted = Playlists_Book(**new_data)
