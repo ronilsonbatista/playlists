@@ -51,9 +51,8 @@ class AddBook():
       return new_data
 
 class Submitted():
-
     @staticmethod
-    def insert_book(dict) -> bool:
+    def insert_playlist(dict) -> bool:
         submitted = Playlists(**dict)
         db.session.add(submitted)
         db.session.commit()
