@@ -7,9 +7,11 @@ import sys
 sys.path.insert(1, f"{project_dir}/../services/")
 from ServiceMapping import BookServiceHandler
 
-import sys
+
 sys.path.insert(1, f"{project_dir}/../create_playlists/")
-from playlists_database import Playlists, PlaylistsSchema, Playlists_Book, PlaylistsBookSchema
+from playlists_build_database import Playlists, PlaylistsSchema, Playlists_Book, PlaylistsBookSchema, Submitted
+from playlist_system import  PlaylistSystem
+
 
 all_playlists_schema = PlaylistsSchema(many = True)
 all_playlists_book_schema = PlaylistsBookSchema(many = True)
@@ -24,13 +26,13 @@ def home():
 def post_playlists():
     name = request.form.get('name')
 
-    new_data = {
-        "name" : name,
-    }
+    data = PlaylistSystem()
+    new_data = data.insert_playlist(name)
 
     submitted = Playlists(**new_data)
     db.session.add(submitted)
     db.session.commit()
+
     return "Salvo com Sucesso"
 
 # Remover coleção
@@ -43,15 +45,14 @@ def romeve_playlists():
                            list=result)
 
 # POST - Remover coleção por id 
-@app.route("/api/remover", methods=["POST"])
-def post_remove(remove_id):
+@app.route("/api/remover", methods=["POST"]) # Fazer Redireciomaneto automatico 
+def post_remove():
 
     remove_id = int(request.form.get('remove_id'))
     
-    user = Playlists.query.get(remove_id)
-    db.session.delete(user)
+    id = Playlists.query.get(remove_id)
+    db.session.delete(id)
     db.session.commit()
-
     return "OK"
 
  # GET - Listar coleção  
@@ -95,17 +96,13 @@ def post_book():
     id_book = int(request.form.get('id_book'))
     name_book = request.form.get('name_book')
 
-    print("id_playlist:", id_playlist)
-    print("name_playlist:", name_playlist) 
-    print("name_book:", name_book)
-    print("id_book:", id_book) 
-
-    new_data = {
-        "name_playlist": name_playlist,
-        "id_playlist": id_playlist,
-        "name_book": name_book,
-        "id_book": id_book,
-    }
+    data = PlaylistSystem()
+    new_data = data.insert_book_to_playlist(
+        name_playlist,
+        id_playlist,
+        name_book,
+        id_book,  
+    )
 
     submitted = Playlists_Book(**new_data)
     db.session.add(submitted)
