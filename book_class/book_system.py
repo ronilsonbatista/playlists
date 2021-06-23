@@ -1,37 +1,43 @@
-from book_class.book_database import RemoveBook
-from config import db, project_dir
+
+from config import project_dir
+from config import db, ma
 
 import sys
-sys.path.insert(1, f"{project_dir}/../create_playlists/")
-from book_database import InsertBook, RemoveBook
+sys.path.insert(1, f"{project_dir}/../book_class/")
+from book_database import Book, BookSchema
 from book_interface import BookInterfaces
 
-class PlaylistSystem(BookInterfaces):
+class BookSystem(BookInterfaces):
       
-    @staticmethod  
+    @staticmethod
     def insert_book(titulo, isbn, autor, genero) -> bool:
-        insertBook = InsertBook()
-        insertBook = insertBook.insert_book(
-            titulo,
-            isbn,
-            autor,
-            genero 
-        )
-
-        if insertBook==False:
+    
+        if titulo==None or isbn==None or autor==None or genero == None: 
             return False
 
-        if insertBook==True:
-            return True
+        new_data = {
+            "titulo": titulo,
+            "isbn": isbn,
+            "autor": autor,
+            "genero": genero,
+        }
+
+        submitted = Book(**new_data)
+        db.session.add(submitted)
+        db.session.commit()
+        return True
+    
+    @staticmethod
+    def list_book() -> BookSchema:
+        return BookSchema(many = True)
         
-    @staticmethod 
-    def romove_book(id) -> bool:
-        romove_book = RemoveBook()
-        romove_book.remove_book(id)
-
-        if romove_book==False:
-            return False
-
-        if romove_book==True:
-            return True
+    # @staticmethod
+    # def remove_book(id) -> bool:
+    #     if id==None:
+    #         return False
+        
+    #     id = Book.query.get(id)
+    #     db.session.delete(id)
+    #     db.session.commit()
+    #     return True
 

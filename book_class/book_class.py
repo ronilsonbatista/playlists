@@ -1,19 +1,13 @@
-from config import app, db, ma
+import os.path
+from config import app, db, database_file, project_dir
 from flask import jsonify, render_template, request
+from dateutil import parser
 
-class Book(db.Model):
-    __tablename__ = "book"
-    book_id = db.Column(db.Integer(),
-                   primary_key=True)
-    name = db.Column(db.String(256), nullable=False, unique=True)
+import sys
+sys.path.insert(1, f"{project_dir}/../book_class/")
+from book_system import BookSystem
+from book_database import Book, BookSchema
 
-
-class BookSchema(ma.SQLAlchemyAutoSchema):
-    class Meta:
-        model = Book
-        fields = ["name", "book_id"]
-
-all_classes_schema = BookSchema(many = True)
 
 @app.route("/api/home")
 def home():
@@ -35,7 +29,19 @@ def salvar_livro():
     print("isbn", isbn)
     print("autor", autor)
     print("genero", genero)
-    return "Savo"
+
+    book_system = BookSystem()
+    book_system = book_system.insert_book(
+       titulo,
+        isbn,
+        autor,
+        genero
+    )
+
+    if book_system==True:
+        return "Salvo"
+    if book_system==False:
+        return "Errorr"
 
 # Remover coleção
 @app.route("/api/remover/livro", methods=["POST"])
@@ -45,9 +51,10 @@ def redirectRemove():
 @app.route("/api/lista/livros", methods=["POST"])
 def redirectList():
     classes = Book.query.all()
-    schema = all_classes_schema.dump(classes)
-    return jsonify(schema)
-
+    list_book = BookSchema(many = True)
+    return jsonify(list_book.dump(classes))
 
 if __name__ == "__main__":
+    if not os.path.exists(database_file):
+        db.create_all()
     app.run(host="0.0.0.0", port=12300, debug=True)
