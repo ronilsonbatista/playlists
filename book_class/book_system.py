@@ -30,9 +30,21 @@ class BookSystem(BookInterfaces):
     def remove_book(remove_id) -> bool:
         if remove_id==None:
             return False
-            
+
         id = Book.query.get(remove_id)
         db.session.delete(id)
         db.session.commit()
         return True
+
+    @staticmethod
+    def update_book(id, titulo, isbn, autor, genero) -> bool:
+        if id==None or titulo==None or isbn==None or autor==None or genero == None: 
+            return False
+
+        book = Book.query.get(id)
+        book.titulo = titulo
+        book.isbn = isbn
+        book.autor = autor
+        book.genero = genero
+        db.session.commit()
 

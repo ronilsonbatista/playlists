@@ -55,14 +55,58 @@ def redirectRemove():
 @app.route("/api/remover", methods=["POST"])
 def post_remove():
      remove_id = int(request.form.get('remove_id'))
-     id = request.form.get('id-r')
 
      print("remove_id", remove_id)
-     print("id", id)
      book_system = BookSystem()
      book_system.remove_book(remove_id)
     
      return "Salvo"
+
+# Remover coleção
+@app.route("/api/selecione/livro", methods=["POST"])
+def redirectEdit():
+    result = Book.query.all()
+
+    return render_template("select_book.html",
+                           list=result)
+
+# POST - Edit Livro por id 
+@app.route("/api/editar/livro", methods=["POST"])
+def post_edit():
+     edit_id = int(request.form.get('edit_id'))
+
+     print("edit_id", edit_id)    
+     book = Book.query.get(edit_id)
+     print("titulo", book.titulo)  
+
+     return render_template("edit_book.html", id=book.id, titulo=book.titulo, isbn=book.isbn, autor=book.autor)
+
+
+@app.route("/api/salvar/edicao", methods=["POST"])
+def salvar_edit():
+    id = request.form.get('id')
+    titulo = request.form.get('titulo')
+    isbn = request.form.get('isbn')
+    autor = request.form.get('autor')
+    genero = request.form.get('genero')
+
+    print("id", id)
+    print("titulo", titulo)
+    print("isbn", isbn)
+    print("autor", autor)
+    print("genero", genero)
+
+    book_system = BookSystem()
+    book_system = book_system.update_book(
+        id,
+        titulo,
+        isbn,
+        autor,
+        genero
+    )
+
+
+    return "Salvo"
 
 # Listar Livros
 @app.route("/api/lista/livros", methods=["POST"])

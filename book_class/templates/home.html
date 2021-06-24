@@ -21,8 +21,17 @@
     <br> </br>
 
     <div class="col-sm-2">
+        <form action="{{ url_for('redirectEdit') }} " method="post">
+            <button type="submit" class="btn btn-warning btn-block">Editar Livros</button>
+            </div>
+        </form>
+        </div>  
+
+    <br> </br>
+
+    <div class="col-sm-2">
         <form action="{{ url_for('redirectRemove') }} " method="post">
-            <button type="submit" class="btn btn-warning btn-block">Remover Livros</button>
+            <button type="submit" class="btn btn btn-danger">Remover Livros</button>
             </div>
         </form>
         </div>  
