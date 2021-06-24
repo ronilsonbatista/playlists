@@ -7,14 +7,10 @@ from book_database import BookSchema
 
 class BookInterfaces(ABC):
 
-    # @abstractmethod
-    # def romove_book(id) -> bool:
-    #     pass
-    
     @abstractmethod
     def insert_book(titulo, isbn, autor, genero) -> bool:
         pass
 
-    @abstractmethod
-    def list_book() -> BookSchema:
+    def romove_book(remove_id) -> bool:
         pass
+    

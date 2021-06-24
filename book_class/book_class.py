@@ -46,8 +46,25 @@ def salvar_livro():
 # Remover coleção
 @app.route("/api/remover/livro", methods=["POST"])
 def redirectRemove():
-    return render_template("remove_playlists.html")
+    result = Book.query.all()
 
+    return render_template("remove_book.html",
+                           list=result)
+
+# POST - Remover Livro por id 
+@app.route("/api/remover", methods=["POST"])
+def post_remove():
+     remove_id = int(request.form.get('remove_id'))
+     id = request.form.get('id-r')
+
+     print("remove_id", remove_id)
+     print("id", id)
+     book_system = BookSystem()
+     book_system.remove_book(remove_id)
+    
+     return "Salvo"
+
+# Listar Livros
 @app.route("/api/lista/livros", methods=["POST"])
 def redirectList():
     classes = Book.query.all()

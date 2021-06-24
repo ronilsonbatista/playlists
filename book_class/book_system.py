@@ -11,7 +11,6 @@ class BookSystem(BookInterfaces):
       
     @staticmethod
     def insert_book(titulo, isbn, autor, genero) -> bool:
-    
         if titulo==None or isbn==None or autor==None or genero == None: 
             return False
 
@@ -26,18 +25,14 @@ class BookSystem(BookInterfaces):
         db.session.add(submitted)
         db.session.commit()
         return True
-    
+           
     @staticmethod
-    def list_book() -> BookSchema:
-        return BookSchema(many = True)
-        
-    # @staticmethod
-    # def remove_book(id) -> bool:
-    #     if id==None:
-    #         return False
-        
-    #     id = Book.query.get(id)
-    #     db.session.delete(id)
-    #     db.session.commit()
-    #     return True
+    def remove_book(remove_id) -> bool:
+        if remove_id==None:
+            return False
+            
+        id = Book.query.get(remove_id)
+        db.session.delete(id)
+        db.session.commit()
+        return True
 
