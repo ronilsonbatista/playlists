@@ -17,10 +17,11 @@
     <br> </br>
     <form action="{{ url_for('post_remove') }} " method="post">
     <div class="form-check form-check-inline">
-        <input type="hidden" name="remove_id" value= "{{t.id}}" />
-        <input class="form-check-input" type="radio" name="id-r" id="P-radio" value= "{{t.id}}">
+        <!-- <input type="hidden" name="remove_id" value= "{{t.id}}" /> -->
+        <input class="form-check-input" type="radio" name="remove_id" id="P-radio" value= "{{t.id}}">
         <label class="form-check-label" for="P-radio"> {{t.titulo}} </label>
     </div>
+
     {% endfor %}
 
     <div class="col-sm-2">
