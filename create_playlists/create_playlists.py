@@ -15,9 +15,19 @@ all_playlists_schema = PlaylistsSchema(many = True)
 all_playlists_book_schema = PlaylistsBookSchema(many = True)
 
 # Criar coleção
-@app.route("/api/criar/colecao", methods=["GET"])
+@app.route("/api/home", methods=["GET"])
 def home():
-    return render_template("index.html")
+    return render_template("home_playlist.html")
+
+# Criar coleção
+@app.route("/api/home2", methods=["POST"])
+def redirectAdd():
+    return render_template("home_playlist.html")
+
+# Criar coleção
+@app.route("/api/criar/colecao", methods=["GET"])
+def create_playlist():
+    return render_template("create_playlist.html")
 
 # POST - Criar coleção
 @app.route("/api/nova/colecao", methods=["POST"])
@@ -61,7 +71,7 @@ def submitted_list():
 
 
  # Selecionar Coleção 
-@app.route("/api/selecionar/colecao", methods=["GET"])
+@app.route("/api/selecionar/colecao", methods=["POST"])
 def new_book():
    
     result = Playlists.query.all()
@@ -76,6 +86,7 @@ def post_add_book():
     id_playlist = int(request.form.get('id_playlist'))
     name_playlist = request.form.get('name_playlist')
     result = BookServiceHandler().get()
+    print("resuly", result)
 
     print("id_playlist:",  id_playlist)
     print("name_playlist", name_playlist)

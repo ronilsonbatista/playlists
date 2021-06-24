@@ -12,24 +12,23 @@
   </head>
   <body>
     <h1>Selecione o livro:</h1>
-    
-    <br> </br>
+
     {% for t in list %}
     <form method="post" action="{{ url_for('post_book') }}">
+      <br>
+      <br>
 
-          
     <input type="hidden" name="id_playlist" value="{{id_playlist}}" />
     <input type="hidden" name="name_playlist" value="{{name_playlist}}" />
 
     <div class="form-check form-check-inline">
-        <input type="hidden" class="form-check-input" type="radio" name="name_book" id="P-radio" value= "{{t.name}}">
-        <input class="form-check-input" type="radio" name="id_book" id="P-radio" value= "{{t.book_id}}">
-        <label class="form-check-label" for="P-radio"> {{t.name}} </label>
+        <input type="hidden" class="form-check-input" type="radio" name="name_book" id="P-radio" value= "{{t.titulo}}">
+        <input class="form-check-input" type="radio" name="id_book" id="P-radio" value= "{{t.id}}">
+        <label class="form-check-label" for="P-radio"> {{t.titulo}} </label>
     </div>
     {% endfor %}
 
-    <div class="col-sm-2">
-        <br> <br/>
-        <button type="submit" class="btn btn-primary">Adicionar</button>
-    </div>
+    <br>
+    <br>
+    <button type="submit" class="btn  btn-lg btn btn-success btn-block">Adicionar</button>
 </form>

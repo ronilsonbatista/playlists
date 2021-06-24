@@ -8,6 +8,7 @@ sys.path.insert(1, f"{project_dir}/../book_class/")
 from book_system import BookSystem
 from book_database import Book, BookSchema
 
+list_book = BookSchema(many = True)
 
 @app.route("/api/home")
 def home():
@@ -112,7 +113,6 @@ def salvar_edit():
 @app.route("/api/lista/livros", methods=["POST"])
 def redirectList():
     classes = Book.query.all()
-    list_book = BookSchema(many = True)
     return jsonify(list_book.dump(classes))
 
 if __name__ == "__main__":
