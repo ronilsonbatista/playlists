@@ -106,7 +106,6 @@ def salvar_edit():
         genero
     )
 
-
     return "Salvo"
 
 # Listar Livros

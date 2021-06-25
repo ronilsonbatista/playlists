@@ -9,8 +9,6 @@ class Book(db.Model):
     autor = db.Column(db.String(256), nullable=False)
     genero = db.Column(db.String(256), nullable=False)
 
-    db.create_all()
-
 # Tratando Exibição dos json
 class BookSchema(ma.SQLAlchemyAutoSchema):
     submitted = ma.Nested(Book, many=True)

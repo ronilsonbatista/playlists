@@ -14,3 +14,5 @@ class BookInterfaces(ABC):
     def romove_book(remove_id) -> bool:
         pass
     
+    def update_book(id, titulo, isbn, autor, genero) -> bool:
+        pass 

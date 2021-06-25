@@ -53,7 +53,7 @@ def romeve_playlists():
                            list=result)
 
 # POST - Remover coleção por id 
-@app.route("/api/remover", methods=["POST"]) # Fazer Redireciomaneto automatico 
+@app.route("/api/remover/", methods=["POST"]) # Fazer Redireciomaneto automatico 
 def post_remove():
 
     remove_id = int(request.form.get('remove_id'))
