@@ -8,7 +8,7 @@ sys.path.insert(1, f"{project_dir}/../services/")
 from ServiceMapping import BookServiceHandler
 
 sys.path.insert(1, f"{project_dir}/../create_playlists/")
-from playlists_build_database import Playlists, PlaylistsSchema, Playlists_Book, PlaylistsBookSchema, Submitted
+from playlists_build_database import Playlists, PlaylistsSchema, Playlists_Book, PlaylistsBookSchema
 from playlist_system import  PlaylistSystem
 
 all_playlists_schema = PlaylistsSchema(many = True)
